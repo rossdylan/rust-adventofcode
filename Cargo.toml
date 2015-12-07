@@ -1,0 +1,11 @@
+[package]
+name = "adventofcode"
+version = "0.1.0"
+authors = ["Ross Delinger <rossdylan@csh.rit.edu>"]
+
+[[bin]]
+name = "adventofcode"
+path = "src/bin.rs"
+
+[dependencies]
+nom = "1.0.1"
