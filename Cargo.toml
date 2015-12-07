@@ -9,3 +9,4 @@ path = "src/bin.rs"
 
 [dependencies]
 nom = "1.0.1"
+clap = "1.5.3"
