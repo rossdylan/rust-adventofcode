@@ -8,6 +8,7 @@ extern crate nom;
 extern crate clap;
 
 mod day2;
+mod day3;
 
 use std::io::{stdin, Read};
 use clap::{App, SubCommand};
@@ -23,8 +24,12 @@ fn run_day2() {
 }
 
 fn run_day3() {
-    let mut buffer : Vec<u8> = vec![];
-    stdin().read_to_end(&mut buffer).unwrap();
+    let mut buffer = String::new();
+    stdin().read_to_string(&mut buffer).unwrap();
+    let house_count = day3::handle_directions(&buffer);
+    let robo_count = day3::robo_santa(&buffer);
+    println!("[Day 3] Part 1: {}", house_count);
+    println!("[Day 3] Part 2: {}", robo_count);
 }
 
 pub fn main() {
