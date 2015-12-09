@@ -8,9 +8,9 @@ pub fn hash(data : &str) -> String {
     hasher.result_str()
 }
 
-pub fn find_hash(key: &str) -> usize {
+pub fn find_hash(key: &str, prefix: &str) -> usize {
     let trimmed = key.trim();
     (0..).filter(|i| {
-        hash(&(trimmed.to_string() + &i.to_string())).starts_with("00000")
+        hash(&(trimmed.to_string() + &i.to_string())).starts_with(prefix)
     }).next().unwrap()
 }

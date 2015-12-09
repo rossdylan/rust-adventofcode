@@ -37,8 +37,10 @@ fn run_day3() {
 fn run_day4() {
     let mut buffer = String::new();
     stdin().read_to_string(&mut buffer).unwrap();
-    let part1 = day4::find_hash(&buffer);
+    let part1 = day4::find_hash(&buffer, "00000");
     println!("[Day 4] Part 1: {}", part1);
+    let part2 = day4::find_hash(&buffer, "000000");
+    println!("[Day 4] Part 2: {}", part2);
 }
 
 pub fn main() {
