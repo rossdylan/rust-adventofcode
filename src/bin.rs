@@ -6,9 +6,11 @@
 
 extern crate nom;
 extern crate clap;
+extern crate crypto;
 
 mod day2;
 mod day3;
+mod day4;
 
 use std::io::{stdin, Read};
 use clap::{App, SubCommand};
@@ -32,18 +34,29 @@ fn run_day3() {
     println!("[Day 3] Part 2: {}", robo_count);
 }
 
+fn run_day4() {
+    let mut buffer = String::new();
+    stdin().read_to_string(&mut buffer).unwrap();
+    let part1 = day4::find_hash(&buffer);
+    println!("[Day 4] Part 1: {}", part1);
+}
+
 pub fn main() {
     let matches = App::new("adventofcode")
         .version("0.1.0")
         .author("Ross Delinger <rossdylan@fastmail.com>")
         .about("Program for running my adventofcode submissions")
         .subcommand(SubCommand::with_name("day2"))
-        .subcommand(SubCommand::with_name("day3")).get_matches();
+        .subcommand(SubCommand::with_name("day3"))
+        .subcommand(SubCommand::with_name("day4")).get_matches();
 
     if let Some(_) = matches.subcommand_matches("day2") {
         run_day2();
     }
     if let Some(_) = matches.subcommand_matches("day3") {
         run_day3();
+    }
+    if let Some(_) = matches.subcommand_matches("day4") {
+        run_day4();
     }
 }
