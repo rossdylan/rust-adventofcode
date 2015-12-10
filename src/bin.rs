@@ -1,5 +1,5 @@
 #![feature(test)]
-
+#![feature(plugin)]
 #![feature(iter_arith)]
 #![feature(convert)]
 #[macro_use]
@@ -7,10 +7,12 @@
 extern crate nom;
 extern crate clap;
 extern crate crypto;
+extern crate regex;
 
 mod day2;
 mod day3;
 mod day4;
+mod day5;
 
 use std::io::{stdin, Read};
 use clap::{App, SubCommand};
@@ -43,6 +45,13 @@ fn run_day4() {
     println!("[Day 4] Part 2: {}", part2);
 }
 
+fn run_day5() {
+    let mut buffer = String::new();
+    stdin().read_to_string(&mut buffer).unwrap();
+    let part1 = day5::solve(&buffer);
+    println!("[Day 5] Part 1: {}", part1);
+}
+
 pub fn main() {
     let matches = App::new("adventofcode")
         .version("0.1.0")
@@ -50,7 +59,8 @@ pub fn main() {
         .about("Program for running my adventofcode submissions")
         .subcommand(SubCommand::with_name("day2"))
         .subcommand(SubCommand::with_name("day3"))
-        .subcommand(SubCommand::with_name("day4")).get_matches();
+        .subcommand(SubCommand::with_name("day4"))
+        .subcommand(SubCommand::with_name("day5")).get_matches();
 
     if let Some(_) = matches.subcommand_matches("day2") {
         run_day2();
@@ -60,5 +70,8 @@ pub fn main() {
     }
     if let Some(_) = matches.subcommand_matches("day4") {
         run_day4();
+    }
+    if let Some(_) = matches.subcommand_matches("day5") {
+        run_day5();
     }
 }
