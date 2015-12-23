@@ -7,12 +7,12 @@
 extern crate nom;
 extern crate clap;
 extern crate crypto;
-extern crate regex;
 
 mod day2;
 mod day3;
 mod day4;
 mod day5;
+mod day6;
 
 use std::io::{stdin, Read};
 use clap::{App, SubCommand};
@@ -52,6 +52,14 @@ fn run_day5() {
     println!("[Day 5] Part 1: {}", part1);
 }
 
+fn run_day6() {
+    let mut buffer : Vec<u8> = vec![];
+    stdin().read_to_end(&mut buffer).unwrap();
+    let part1 = day6::solve(&buffer[..]);
+    println!("part1: {}", part1);
+}
+
+
 pub fn main() {
     let matches = App::new("adventofcode")
         .version("0.1.0")
@@ -60,7 +68,8 @@ pub fn main() {
         .subcommand(SubCommand::with_name("day2"))
         .subcommand(SubCommand::with_name("day3"))
         .subcommand(SubCommand::with_name("day4"))
-        .subcommand(SubCommand::with_name("day5")).get_matches();
+        .subcommand(SubCommand::with_name("day5"))
+        .subcommand(SubCommand::with_name("day6")).get_matches();
 
     if let Some(_) = matches.subcommand_matches("day2") {
         run_day2();
@@ -73,5 +82,8 @@ pub fn main() {
     }
     if let Some(_) = matches.subcommand_matches("day5") {
         run_day5();
+    }
+    if let Some(_) = matches.subcommand_matches("day6") {
+        run_day6();
     }
 }
