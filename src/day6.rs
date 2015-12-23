@@ -14,7 +14,7 @@ pub enum Operation {
 }
 
 pub type Instruction = (Operation, (i64, i64), (i64, i64));
-pub type LightGrid = HashMap<(i64,i64), bool>;
+pub type LightGrid = HashMap<(i64,i64), usize>;
 
 pub fn op_from_str(string : &[u8]) -> Result<Operation, &str> {
     match str::from_utf8(string).unwrap() {
@@ -77,12 +77,30 @@ pub fn modify_light(grid : &mut LightGrid, op : Operation, start : (i64,i64), st
     for x in start.0..(stop.0+1) {
         for y in start.1..(stop.1+1) {
             match op {
-                Operation::On => grid.insert((x,y), true),
-                Operation::Off => grid.insert((x,y), false),
+                Operation::On => {
+                    let new = match grid.get_mut(&(x,y)) {
+                        Some(val) => *val+1,
+                        None => 1
+                    };
+                    grid.insert((x,y), new)
+                }
+                Operation::Off => {
+                    let new = match grid.get_mut(&(x,y)) {
+                        Some(val) => {
+                            if *val == 0 {
+                                0
+                            } else {
+                                *val-1
+                            }
+                        },
+                        None => 0
+                    };
+                    grid.insert((x,y), new)
+                }
                 Operation::Toggle => {
                     let new = match grid.get_mut(&(x,y)) {
-                        Some(val) => !(*val),
-                        None => true
+                        Some(val) => *val+2,
+                        None => 2
                     };
                     grid.insert((x,y), new)
                 }
@@ -100,16 +118,18 @@ pub fn parse_instructions(input: &[u8]) -> Vec<Instruction> {
     }
 }
 
-pub fn solve(input: &[u8]) -> usize {
+pub fn solve(input: &[u8]) -> (usize, usize) {
     let mut grid : LightGrid = HashMap::new();
     for x in 0..1000 {
         for y in 0..1000 {
-            grid.insert((x,y), false);
+            grid.insert((x,y), 0);
         }
     }
     println!("Created grid, starting instructions");
     for inst in parse_instructions(input).iter() {
         modify_light(&mut grid, inst.0, inst.1, inst.2);
     }
-    grid.values().filter(|v| { **v == true }).count()
+    let p1 = grid.values().filter(|v| { **v > 0 }).count();
+    let p2 = grid.values().sum();
+    (p1,p2)
 }

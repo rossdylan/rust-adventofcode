@@ -55,8 +55,9 @@ fn run_day5() {
 fn run_day6() {
     let mut buffer : Vec<u8> = vec![];
     stdin().read_to_end(&mut buffer).unwrap();
-    let part1 = day6::solve(&buffer[..]);
+    let (part1, part2) = day6::solve(&buffer[..]);
     println!("part1: {}", part1);
+    println!("part2: {}", part2);
 }
 
 
